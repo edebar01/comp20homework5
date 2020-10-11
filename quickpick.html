@@ -1,0 +1,104 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<meta charset="utf-8">
+<title> Quick Pick </title>
+</head>
+
+<body>
+	<h1> Quick Pick Results </h1>
+	<script language="Javascript">
+
+	//retrieve winning numbers
+	winningNumbers = prompt("Enter winning numbers, separated by a space", "28 30 31 42 43");
+	winningLuckyBall = parseInt(prompt("Enter lucky ball number", "13"));
+	winningNumbersArray = winningNumbers.split(" ");
+
+	//convert inputted numbers to integers
+	for (i = 0; i < winningNumbersArray.length; i++) {
+		numString = winningNumbersArray[i];
+		num = parseInt(numString);
+		winningNumbersArray[i] = num;
+	}
+	winningNumbersArray.sort(function(a, b){return a-b});
+
+	//generate random quick pick
+	randomNumbers = [];
+	for (i = 0; i < 5; i++) {
+		num = Math.floor(Math.random() * 47 + 1);
+		randomNumbers[i] = num;
+	}
+	randomNumbers.sort(function(a, b){return a-b});
+	randomLuckyBall = Math.floor(Math.random() * 17 + 1);
+
+	//display random quick pick
+	document.write("The Quick Pick numbers are: ");
+	for (i = 0; i < randomNumbers.length; i++) {
+		document.write(randomNumbers[i] + " ");
+	}
+	document.write("<br/>");
+	document.write("The Lucky Ball number is: " + randomLuckyBall);
+	document.write("<br/>");
+	document.write("<br/>");
+
+	//display winning numbers
+	document.write("The winning numbers are: ");
+	for (i = 0; i < winningNumbersArray.length; i++) {
+		document.write(winningNumbersArray[i] + " ");
+	}
+	document.write("<br/>");
+	document.write("The Lucky Ball number is: " + winningLuckyBall);
+	document.write("<br/>");
+	document.write("<br/>");
+
+	//count number of matches
+	numMatches = 0;
+	for (i = 0; i < winningNumbersArray.length; i++) {
+		if (winningNumbersArray.indexOf(randomNumbers[i]) != -1) {
+			numMatches++;
+		}
+	}
+
+	//calculate winnings based on number of matches and lucky ball match
+	winnings = "0";
+	luckyBallMatch = randomLuckyBall == winningLuckyBall ? true : false;
+	switch(numMatches) {
+		case 0:
+			winnings = luckyBallMatch ? "4" : "0";
+			break;
+		case 1:
+			winnings = luckyBallMatch ? "6" : "0";
+			break;
+		case 2:
+			winnings = luckyBallMatch ? "25" : "3";
+			break;
+		case 3:
+			winnings = luckyBallMatch ? "150" : "20";
+			break;
+		case 4:
+			winnings = luckyBallMatch ? "5000" : "200";
+			break;
+		case 5:
+			winnings = luckyBallMatch ? "7,000 a WEEK for LIFE" : "25,000 a YEAR for LIFE";
+			break;
+	}
+
+	//display number of matches and lucky ball match
+	plural = numMatches == 1 ? "match" : "matches"
+	document.write("You have " + numMatches + " number " + plural);
+	if (luckyBallMatch) {
+		document.write(" and a lucky ball match! <br/>");
+	} else {
+		document.write(" and no lucky ball match. <br/>");
+	}
+	
+	//display payout
+	if (winnings != "0") {
+		document.write("You win! Your payout is: $" + winnings);
+	} else {
+		document.write("Better luck next time!");
+	}
+
+	</script>
+</body>
+</html>
